@@ -8,10 +8,16 @@ from faker import Faker
 
 # Local imports
 from app import app
-from models import db
+from models import db, City
 
 if __name__ == '__main__':
     fake = Faker()
     with app.app_context():
+        City.query.delete()
         print("Starting seed...")
-        # Seed code goes here!
+        city1 = City(name='Phuket', country='Thailand', continent='Asia')
+        city2 = City(name='Istanbul', country='Turkey', continent='Europe/Asia')
+
+        db.session.add_all([city1, city2])
+        db.session.commit()
+        print("Added info")
