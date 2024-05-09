@@ -5,7 +5,9 @@ import { createRoot } from "react-dom/client";
 import ErrorPage from "./components/ErrorPage";
 
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import CitiesList from "./components/CitiesList";
+import NavBar from "./components/NavBar";
+import HomePage from "./components/HomePage";
+import TeamsList from "./components/TeamsList";
 
 const router = createBrowserRouter([
     {
@@ -15,7 +17,11 @@ const router = createBrowserRouter([
         children: [
             {
                 path:'/',
-                element: <CitiesList/>
+                element: <HomePage/>
+            },
+            {
+                path:'/teams',
+                element: <TeamsList/>
             }
         ]
     }

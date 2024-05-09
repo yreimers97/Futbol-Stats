@@ -3,15 +3,26 @@ from sqlalchemy.ext.associationproxy import association_proxy
 
 from config import db
 
-class League(db.Model, SerializerMixin):
-    __tablename__ = 'leagues'
+# class League(db.Model, SerializerMixin):
+#     __tablename__ = 'leagues'
 
+#     id = db.Column(db.Integer, primary_key=True)
+#     league_name = db.Column(db.String, nullable=False)
+#     country = db.Column(db.String, nullable=False)
+
+#     players = db.relationship('Player', back_populates='league', cascade='all')
+
+#     teams = association_proxy('players', 'team', creator = lambda t: Player(team = t))
+
+class User(db.Model, SerializerMixin):
+    __tablename__ = 'users'
     id = db.Column(db.Integer, primary_key=True)
-    league_name = db.Column(db.String, nullable=False)
-    country = db.Column(db.String, nullable=False)
+    name = db.Column(db.String, nullable=False)
+    nationality = db.Column(db.String, nullable=False)
+    age = db.Column(db.Integer, nullable=False)
 
-    players = db.relationship('Player', back_populates='league', cascade='all')
-
+    players = db.relationship('Player', back_populates='user', cascade='all')
+    
     teams = association_proxy('players', 'team', creator = lambda t: Player(team = t))
 
 class Team(db.Model, SerializerMixin):
@@ -25,21 +36,20 @@ class Team(db.Model, SerializerMixin):
 
     players = db.relationship('Player', back_populates='team', cascade='all')
 
-    leagues = association_proxy('players', 'league', creator = lambda l: Player(league = l))
+    users = association_proxy('players', 'user', creator = lambda u: Player(user = u))
 
 class Player(db.Model, SerializerMixin):
     __tablename__ = 'players'
 
     id = db.Column(db.Integer, primary_key=True)
-    player_name = db.Column(db.String)
-    position = db.Column
-    goals = db.Column(db.Integer, nullable=False)
-    assists = db.Column(db.Integer, nullable=False)
+    player_name = db.Column(db.String, nullable=False)
+    position = db.Column(db.String, nullable=False)
+    age = db.Column(db.Integer, nullable=False)
 
-    league_id = db.Column(db.Integer, db.ForeignKey('leagues.id'))
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     team_id = db.Column(db.Integer, db.ForeignKey('teams.id'))
 
-    league = db.relationship('League', back_populates='players')
+    user = db.relationship('User', back_populates='players')
     team = db.relationship('Team', back_populates='players')
 
 # class Follower(db.Model, SerializerMixin):

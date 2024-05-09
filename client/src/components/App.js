@@ -1,17 +1,19 @@
 import React, { useEffect, useState } from "react";
 import { Outlet } from "react-router-dom";
+import NavBar from "./NavBar";
 
 function App() {
-  const [cities, setCities] = useState([])
+  const [teams, setTeams] = useState([])
 
   useEffect(() => {
-  fetch('/cities')
+  fetch('/teams')
   .then(response => response.json())
-  .then(citiesData => setCities(citiesData))
+  .then(teamsData => setTeams(teamsData))
   }, [])
 
   return <div>
-            <Outlet context={{cities: cities}}/>
+            <NavBar/>
+            <Outlet context={{teams: teams}}/>
         </div>
 }
 
